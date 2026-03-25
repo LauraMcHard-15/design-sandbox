@@ -1,4 +1,3 @@
-# design-sandbox
 # 🎨 Design Sandbox
 
 Welcome to the Design Sandbox — a safe space to get hands-on with Git, GitHub, and AI-native ways of working. You don't need to be a developer to use this. Follow the steps below and you'll be up and running in no time.
@@ -64,11 +63,67 @@ Make a habit of doing this at the start of every session.
 
 ```
 design-sandbox/
-├── assets/        # Shared images, icons, and brand files
-├── designs/       # Work-in-progress design files
-├── resources/     # Guides, references, and learning materials
+├── _shared/       # Shared templates, assets, and resources for the whole team
+├── team/          # Personal sandbox folders — one per team member
 └── README.md      # You are here
 ```
+
+---
+
+## 🛠️ Recommended Software
+
+You don't need all of this — but this is the stack that works well for AI-native design work. Install what makes sense for where you are right now.
+
+---
+
+### Terminals & Editors
+
+**[Ghostty](https://ghostty.org/)**
+A fast, modern terminal that's become a favourite for designers dipping into the command line. It's clean, GPU-accelerated, and doesn't feel intimidating. If you've never used a terminal before, start here.
+
+**[Cursor](https://www.cursor.com/)**
+An AI-first code editor built on VS Code. If you're doing anything with files, configs, or code alongside your design work, Cursor is excellent — it understands context across your whole project and can explain, edit, and generate right inside the editor.
+
+**[Supacode](https://supacode.sh/)**
+A more advanced setup — and worth knowing about when you're ready to level up. Supacode is a native macOS app (built on the same engine as Ghostty) that acts as a command centre for running 50+ AI coding agents in parallel. Each agent gets its own isolated Git worktree, so they can't step on each other's work. You can run Claude Code, Codex, or any other CLI agent inside it, review CI checks, and open pull requests — all without leaving the terminal. Overkill for day one, but a glimpse of where AI-native workflows are heading.
+
+> ⚠️ **macOS only** — Supacode currently requires macOS 26 Tahoe. Check your OS version before trying to install.
+
+---
+
+### Design Tools
+
+**[Figma](https://www.figma.com/)**
+The team's primary design tool. If you're not already using it collaboratively via shared files and libraries, this sandbox is a good excuse to start.
+
+**[Figma Make](https://www.figma.com/make/)**
+Figma's AI-powered generative design feature. Describe what you want — a component, a layout, a prototype — and it builds a first draft. Great for rapid exploration and a good starting point for AI experiments.
+
+**[Pencil](https://pencil.evolus.vn/)**
+A lightweight open-source prototyping tool. Useful for quick wireframes and low-fidelity sketches without the overhead of a full Figma file.
+
+---
+
+### Claude Code
+
+**[Claude Code](https://docs.anthropic.com/en/docs/claude-code)**
+An agentic AI assistant that runs directly in your terminal. Rather than just answering questions, Claude Code can read your files, write and edit code, run commands, and work through multi-step tasks autonomously — all from the command line. It works brilliantly inside Ghostty or Supercode.
+
+#### Using Claude Code in your sandbox folder
+
+The key habit to build is navigating into your own experiments folder *before* you start Claude Code, so it has the right context for what you're working on.
+
+```bash
+# Step 1 — navigate to your personal experiments folder
+cd design-sandbox/team/your-name/experiments
+
+# Step 2 — launch Claude Code
+claude
+```
+
+From there you can ask it to create an experiment brief, draft a prompt log entry, summarise what's in your folder, or help you build and document anything you're exploring. It reads the files around it, so the more context you give it (a brief, a prompt log, a README), the better its output.
+
+> 💡 **Tip:** Try asking it something like *"Read my experiment brief and suggest three prompts I could use to test this in Figma Make"* — it'll use the files in your folder as context automatically.
 
 ---
 
