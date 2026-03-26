@@ -1,0 +1,65 @@
+# Experiment Brief
+
+## The Experiment
+
+**Title:** Using AI to go from idea to live website — ilBosco
+**Date:** March 2026
+**Tool(s) used:** Claude Chat, Claude Code, Figma (traditional)
+
+---
+
+## 1. What am I trying to do?
+
+Build ilBosco — a curated Italian-language directory of European alternatives to mainstream digital tools — and get it from a rough idea to a live website as fast as possible.
+
+---
+
+## 2. Why AI for this?
+
+The main driver was momentum. Using WordPress felt premature for what is essentially a structured static page, but I still needed a bit of JavaScript for some small interactions. I wanted to collapse the distance between idea and shipped thing without the overhead of setting up a full CMS or build pipeline — and without losing the energy that got the project started in the first place.
+
+---
+
+## 3. My hypothesis
+
+That AI could get me to a working brief and a deployable site fast enough that I wouldn't talk myself out of it. I expected to do a lot of correcting and editing — less so writing from scratch.
+
+---
+
+## 4. What I actually did
+
+Used Claude Chat and Claude Code back and forth: Chat to shape the ideas, write the brief, and nail the tone; Code to build the actual HTML/CSS/JS from the spec and a Figma export. In practice, Claude Chat alone was enough to produce everything needed in writing — the project brief, the content spec, the editorial copy per category. Claude Code took it from there.
+
+The back-and-forth involved pushing back on anything too generic or preachy, keeping the Italian strings Italian, and refining the content fields for each directory entry until they felt honest rather than just structured.
+
+---
+
+## 5. Results
+
+- A plain-text project brief, designed to be pasted at the start of any new AI session to restore context
+- A detailed project spec: [`docs/ilbosco-spec.md`](./docs/ilbosco-spec.md)
+- A live website: [ilbosco.co](https://ilbosco.co/)
+
+---
+
+## 6. Reflection
+
+**What worked well?**
+The speed. Idea to live website in 9 days. The context-restoration trick — a brief written to be pasted into future sessions — is something worth reusing. Claude held the project logic across sessions and flagged inconsistencies without being asked.
+
+**What didn't work?**
+Claude Chat was sufficient for the writing and thinking work — Claude Code added less than expected at this scale. Early drafts also defaulted to a neutral, slightly corporate tone and needed a few rounds of pushing toward something more opinionated and human.
+
+**What would I do differently?**
+The real-MVP mindset ("ship fast, fix later") pushed me toward a fully hardcoded HTML file. Right call at the time, but I could have pushed slightly further — a bit more structure in the markup would make future updates less fiddly. Worth being more deliberate about that trade-off rather than defaulting to maximum speed.
+
+**Would I use AI for this kind of task again?**
+Yes — it was crucial. Idea to live website in 9 days, with a team across four countries, and no one burning out. That wouldn't have happened without it.
+
+---
+
+## 7. Anything worth sharing with the team?
+
+The context-restoration brief is worth stealing. Before closing a session, ask Claude to write a short plain-text summary of all decisions made — designed to be pasted at the top of the next conversation. It's a simple habit that makes multi-session work much less lossy.
+
+Also: Claude Chat is often enough. Reaching for Claude Code makes sense when you're actually building, but for ideation, spec writing, and tone work, the chat interface carries most of the weight.
