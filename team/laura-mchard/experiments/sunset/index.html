@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Sunset Time</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Georgia', serif;
+      background: linear-gradient(to bottom, #1a1a2e 0%, #e8873a 60%, #f9c46b 100%);
+      color: #fff;
+      transition: background 2s ease;
+    }
+
+    .card {
+      text-align: center;
+      padding: 3rem 4rem;
+      background: rgba(0, 0, 0, 0.25);
+      backdrop-filter: blur(12px);
+      border-radius: 24px;
+      border: 1px solid rgba(255,255,255,0.15);
+      max-width: 480px;
+      width: 90%;
+    }
+
+    .label {
+      font-size: 0.85rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      opacity: 0.7;
+      margin-bottom: 0.5rem;
+    }
+
+    .sunset-time {
+      font-size: 5rem;
+      font-weight: bold;
+      letter-spacing: -2px;
+      line-height: 1;
+      margin: 0.5rem 0 0.25rem;
+    }
+
+    .sunset-ampm {
+      font-size: 1.5rem;
+      opacity: 0.8;
+    }
+
+    .location {
+      margin-top: 1.5rem;
+      font-size: 1rem;
+      opacity: 0.75;
+    }
+
+    .location span {
+      font-style: italic;
+    }
+
+    .countdown {
+      margin-top: 1.75rem;
+      font-size: 0.95rem;
+      opacity: 0.85;
+      line-height: 1.6;
+    }
+
+    .countdown strong {
+      font-size: 1.2rem;
+      display: block;
+      margin-top: 0.25rem;
+    }
+
+    .date {
+      margin-top: 1.5rem;
+      font-size: 0.8rem;
+      opacity: 0.5;
+      letter-spacing: 0.1em;
+    }
+
+    .error {
+      color: #ffcdd2;
+      font-size: 0.9rem;
+      margin-top: 1rem;
+    }
+
+    .loading {
+      opacity: 0.6;
+      font-size: 1rem;
+      animation: pulse 1.5s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 0.4; }
+      50% { opacity: 0.9; }
+    }
+
+    .sun-icon {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      display: block;
+    }
+  </style>
+</head>
+<body>
+  <div class="card">
+    <span class="sun-icon">☀️</span>
+    <div class="label">Sunset today</div>
+    <div id="output" class="loading">Finding your location...</div>
+    <div class="date" id="date"></div>
+  </div>
+
+  <script>
+    const output = document.getElementById('output');
+    const dateEl = document.getElementById('date');
+
+    // Display today's date
+    const today = new Date();
+    dateEl.textContent = today.toLocaleDateString('en-GB', {
+      weekday: 'long', day: 'numeric', month: 'long', year: 'numeric'
+    });
+
+    function formatTime(date) {
+      const h = date.getHours();
+      const m = String(date.getMinutes()).padStart(2, '0');
+      const ampm = h >= 12 ? 'pm' : 'am';
+      const h12 = h % 12 || 12;
+      return { h12, m, ampm };
+    }
+
+    function timeUntil(sunsetDate) {
+      const now = new Date();
+      const diff = sunsetDate - now;
+      if (diff <= 0) return 'The sun has already set today.';
+      const totalMins = Math.floor(diff / 60000);
+      const hours = Math.floor(totalMins / 60);
+      const mins = totalMins % 60;
+      if (hours > 0) return `in ${hours}h ${mins}m`;
+      return `in ${mins} minutes`;
+    }
+
+    function updateCountdown(sunsetDate, locationName) {
+      const { h12, m, ampm } = formatTime(sunsetDate);
+      const until = timeUntil(sunsetDate);
+
+      output.innerHTML = `
+        <div class="sunset-time">${h12}:${m}<span class="sunset-ampm">${ampm}</span></div>
+        <div class="location">near <span>${locationName}</span></div>
+        <div class="countdown">
+          That's <strong>${until}</strong>
+        </div>
+      `;
+
+      // Update countdown every minute
+      setInterval(() => {
+        const untilNow = timeUntil(sunsetDate);
+        const countdownEl = output.querySelector('.countdown strong');
+        if (countdownEl) countdownEl.textContent = untilNow;
+      }, 60000);
+    }
+
+    function getSunset(lat, lon, locationName) {
+      const dateStr = today.toISOString().split('T')[0];
+      fetch(`https://api.sunrisesunset.io/json?lat=${lat}&lng=${lon}&date=${dateStr}&time_format=24`)
+        .then(r => r.json())
+        .then(data => {
+          if (data.status !== 'OK') throw new Error('API error');
+          const timeStr = data.results.sunset; // e.g. "8:32:00 PM" or "20:32:00"
+          const sunsetDate = parseTimeToday(timeStr);
+          updateCountdown(sunsetDate, locationName);
+        })
+        .catch(() => {
+          // Fallback: calculate sunset using a simple astronomical formula
+          const sunsetDate = calcSunset(lat, lon);
+          updateCountdown(sunsetDate, locationName);
+        });
+    }
+
+    function parseTimeToday(timeStr) {
+      // Handles "20:32:00" or "8:32:00 PM"
+      const d = new Date();
+      const isPM = /pm/i.test(timeStr);
+      const isAM = /am/i.test(timeStr);
+      const clean = timeStr.replace(/[apm\s]/gi, '');
+      const [h, min] = clean.split(':').map(Number);
+      let hours = h;
+      if (isPM && hours !== 12) hours += 12;
+      if (isAM && hours === 12) hours = 0;
+      d.setHours(hours, min, 0, 0);
+      return d;
+    }
+
+    function calcSunset(lat, lon) {
+      // Approximate sunset calculation (Spencer / Bourges method)
+      const rad = Math.PI / 180;
+      const n = Math.floor((today - new Date(today.getFullYear(), 0, 0)) / 86400000);
+      const B = (360 / 365) * (n - 81) * rad;
+      const EoT = 9.87 * Math.sin(2 * B) - 7.53 * Math.cos(B) - 1.5 * Math.sin(B); // minutes
+      const decl = 23.45 * Math.sin(B) * rad;
+      const cosHA = -Math.tan(lat * rad) * Math.tan(decl);
+      if (cosHA < -1 || cosHA > 1) {
+        // midnight sun or polar night
+        output.innerHTML = '<div class="error">No sunset today at your location.</div>';
+        return new Date();
+      }
+      const HA = Math.acos(cosHA) / rad; // degrees
+      const solarNoon = 12 - (lon / 15) - (EoT / 60);
+      const sunsetDecimalHour = solarNoon + (HA / 15);
+      const d = new Date();
+      const h = Math.floor(sunsetDecimalHour);
+      const m = Math.round((sunsetDecimalHour - h) * 60);
+      d.setHours(h, m, 0, 0);
+      return d;
+    }
+
+    function reverseGeocode(lat, lon) {
+      return fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`)
+        .then(r => r.json())
+        .then(data => {
+          const a = data.address;
+          return a.city || a.town || a.village || a.county || a.state || 'your location';
+        })
+        .catch(() => 'your location');
+    }
+
+    if ('geolocation' in navigator) {
+      navigator.geolocation.getCurrentPosition(
+        async pos => {
+          const { latitude: lat, longitude: lon } = pos.coords;
+          const locationName = await reverseGeocode(lat, lon);
+          getSunset(lat, lon, locationName);
+        },
+        err => {
+          output.innerHTML = `
+            <div class="error">Location access denied.<br>
+            Please allow location access and refresh the page.</div>
+          `;
+        },
+        { timeout: 8000 }
+      );
+    } else {
+      output.innerHTML = '<div class="error">Geolocation is not supported by your browser.</div>';
+    }
+  </script>
+</body>
+</html>
