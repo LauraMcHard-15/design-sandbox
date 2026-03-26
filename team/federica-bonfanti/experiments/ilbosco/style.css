@@ -1,0 +1,503 @@
+/* ============================================================
+   FONT FACES
+   ============================================================ */
+
+@font-face {
+  font-family: 'Akshar';
+  src: url('fonts/Akshar-VariableFont_wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('fonts/InstrumentSans-VariableFont_wdth,wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Instrument Sans';
+  src: url('fonts/InstrumentSans-Italic-VariableFont_wdth,wght.woff2') format('woff2');
+  font-weight: 100 900;
+  font-style: italic;
+  font-display: swap;
+}
+
+
+/* ============================================================
+   CSS VARIABLES
+   ============================================================ */
+
+:root {
+  /* Colors */
+  --color-bg:              #044237;
+  --color-heading:         #3FEE9A;
+  --color-body:            #E9EBE6;
+  --color-card-bg:         #E9EBE6;
+  --color-card-text:       #044237;
+  --color-chip-bg:         #FB7FE0;
+  --color-chip-text:       #59002F;
+  --color-footer-bg:       #59002F;
+  --color-footer-text:     #FB7FE0;
+  --color-nav-border:      #FB7FE0;
+  --color-card-decoration: #044237;
+
+  /* Typography */
+  --font-display: 'Akshar', sans-serif;
+  --font-body:    'Instrument Sans', sans-serif;
+
+  --fw-regular: 400;
+  --fw-bold:    700;
+
+  /* Spacing scale */
+  --space-xs:  4px;
+  --space-sm:  8px;
+  --space-md:  16px;
+  --space-lg:  24px;
+  --space-xl:  40px;
+  --space-2xl: 64px;
+  --space-3xl: 96px;
+
+  /* Layout */
+  --nav-height: 64px;
+  --max-width:  1200px;
+  --gutter:     16px;
+
+  /* Transitions */
+  --transition: 200ms ease;
+}
+
+@media (min-width: 768px) {
+  :root {
+    --nav-height: 72px;
+    --gutter:     48px;
+  }
+}
+
+@media (min-width: 1200px) {
+  :root {
+    --gutter: 64px;
+  }
+}
+
+
+/* ============================================================
+   RESET & BASE
+   ============================================================ */
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+[hidden] { display: none !important; }
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  color: var(--color-body);
+  background-color: var(--color-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+img {
+  display: block;
+  max-width: 100%;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+
+/* ============================================================
+   NAV
+   ============================================================ */
+
+.nav {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: var(--color-bg);
+  border-bottom: 1px solid var(--color-nav-border);
+  overflow-x: auto;
+  scrollbar-width: none;
+}
+
+.nav::-webkit-scrollbar {
+  display: none;
+}
+
+.nav__inner {
+  display: flex;
+  align-items: center;
+  gap: var(--space-lg);
+  height: var(--nav-height);
+  padding: 0 var(--gutter);
+  min-width: max-content;
+}
+
+.nav__inner a {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: 1.25rem;
+  letter-spacing: 0.06em;
+  color: var(--color-nav-border);
+  white-space: nowrap;
+  transition: color var(--transition);
+}
+
+.nav__inner a:hover {
+  color: var(--color-body);
+}
+
+@media (min-width: 768px) {
+  .nav__inner {
+    justify-content: center;
+    min-width: unset;
+  }
+}
+
+
+/* ============================================================
+   HERO
+   ============================================================ */
+
+.hero {
+  padding: var(--space-2xl) var(--gutter) var(--space-3xl);
+}
+
+.hero__inner {
+  max-width: 640px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.hero__logo {
+  width: 120px;
+  height: auto;
+  margin-bottom: var(--space-xl);
+}
+
+.hero__title {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: clamp(3.6rem, 14.4vw, 9rem);
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--color-heading);
+  margin-bottom: var(--space-xl);
+}
+
+.hero__manifesto {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: clamp(1rem, 2.5vw, 1.125rem);
+  line-height: 1.65;
+  color: var(--color-body);
+}
+
+
+/* ============================================================
+   CATEGORY SECTION
+   ============================================================ */
+
+.category {
+  padding: 32px var(--gutter);
+}
+
+.category__inner {
+  max-width: 814px;
+  margin: 0 auto;
+}
+
+.category__header {
+  margin-bottom: var(--space-xl);
+}
+
+.category__title {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: clamp(2.6rem, 10.4vw, 4.55rem);
+  line-height: 1;
+  letter-spacing: 0;
+  color: var(--color-heading);
+  margin-bottom: var(--space-lg);
+}
+
+.category__meta {
+  font-family: var(--font-body);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-body);
+  margin-bottom: var(--space-sm);
+}
+
+.category__label {
+  font-weight: var(--fw-bold);
+}
+
+.category__updated {
+  font-family: var(--font-body);
+  font-size: 0.8125rem;
+  color: var(--color-body);
+  opacity: 0.55;
+  margin-top: var(--space-md);
+}
+
+.category__cards {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-lg);
+}
+
+
+/* ============================================================
+   CARD
+   ============================================================ */
+
+.card {
+  background-color: var(--color-card-bg);
+  overflow: hidden;
+}
+
+.card__topbar {
+  height: 4px;
+  background-color: var(--color-heading);
+}
+
+.card__body {
+  padding: var(--space-lg);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.card__subcategory {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 0.875rem;
+  color: var(--color-card-text);
+}
+
+.card__namerow {
+  display: flex;
+  align-items: baseline;
+  gap: var(--space-sm);
+}
+
+.card__name {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: clamp(2rem, 8vw, 3.125rem);
+  letter-spacing: 0;
+  color: var(--color-card-text);
+}
+
+.card__country {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 0.875rem;
+  color: var(--color-chip-text);
+  background-color: var(--color-chip-bg);
+  border-radius: 24px;
+  padding: 4px 8px;
+  line-height: 1;
+}
+
+.card__link {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-xs);
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 0.8125rem;
+  color: var(--color-card-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.card__link-icon {
+  width: 13px;
+  height: 13px;
+  flex-shrink: 0;
+}
+
+.card__inline-label {
+  font-weight: var(--fw-bold);
+}
+
+.card__text {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-card-text);
+}
+
+.card__section-label {
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 0.8125rem;
+  letter-spacing: 0.05em;
+  color: var(--color-card-text);
+  opacity: 0.6;
+  text-transform: uppercase;
+}
+
+.card__more {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-md);
+}
+
+.card__toggle {
+  align-self: flex-start;
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 0.9375rem;
+  color: var(--color-card-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+}
+
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+
+.footer {
+  background-color: var(--color-footer-bg);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  padding: var(--space-xl) var(--gutter) var(--space-lg);
+  text-align: center;
+}
+
+.footer__mascotte {
+  width: 217px;
+  height: auto;
+}
+
+.footer__content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer__heading {
+  font-family: var(--font-display);
+  font-weight: var(--fw-bold);
+  font-size: clamp(2.5rem, 10vw, 3.75rem);
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-footer-text);
+  margin-bottom: var(--space-lg);
+}
+
+.footer__body {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: 0.875rem;
+  line-height: 1.43;
+  color: var(--color-footer-text);
+  margin-bottom: var(--space-lg);
+}
+
+.footer__legal {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: 0.75rem;
+  line-height: 1.67;
+  color: var(--color-footer-text);
+}
+
+.footer__link {
+  color: var(--color-footer-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.footer__link--italic {
+  font-style: italic;
+}
+
+.footer__link:hover {
+  opacity: 0.75;
+}
+
+/* ============================================================
+   FOOTER — CHI SIAMO ACCORDION
+   ============================================================ */
+
+.footer__chi-siamo-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 0.9375rem;
+  color: var(--color-footer-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  margin-bottom: var(--space-lg);
+}
+
+.footer__chi-siamo-toggle:hover {
+  opacity: 0.75;
+}
+
+.footer__chi-siamo-body {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-md);
+  margin-bottom: var(--space-lg);
+  max-width: 480px;
+}
+
+.footer__chi-siamo-text {
+  font-family: var(--font-body);
+  font-weight: var(--fw-regular);
+  font-size: 0.9375rem;
+  line-height: 1.6;
+  color: var(--color-footer-text);
+  text-align: center;
+}
+
+.footer__chi-siamo-close {
+  background: none;
+  border: none;
+  padding: 0;
+  font-family: var(--font-body);
+  font-weight: var(--fw-bold);
+  font-size: 0.9375rem;
+  color: var(--color-footer-text);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  cursor: pointer;
+  margin-top: var(--space-sm);
+}
+
+.footer__chi-siamo-close:hover {
+  opacity: 0.75;
+}
